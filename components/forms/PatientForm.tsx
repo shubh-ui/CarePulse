@@ -10,9 +10,10 @@ import {
 } from "@/components/ui/form"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
+import { creatUser } from "@/lib/actions/patient.actions"
 
 export enum FormFildType {
   INPUT = 'input',
@@ -32,7 +33,13 @@ const PatientForm = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  // 1. Define your form.
+  const [isMounted, setIsMounted] = useState(false);
+
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, [])
+
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
     defaultValues: {
@@ -42,25 +49,30 @@ const PatientForm = () => {
     },
   })
 
-  console.log("Form", form)
+  // console.log("Form", form)
 
-  // 2. Define a submit handler.
-  async function onSubmit({name, email, phone}: z.infer<typeof UserFormValidation>) {
+  async function onSubmit({ name, email, phone }: z.infer<typeof UserFormValidation>) {
     setIsLoading(true);
+    console.log("function get called")
     try {
-      // const userData = { name, email, phone };
+      const userData = { name, email, phone };
 
-      // const user = await createUser(userData);
+      const user = await creatUser(userData);
 
-      // if(user) router.push(`/patients/${user.$id}/register`);
-      
+      if (user) router.push(`/patients/${user.$id}/register`);
+
     } catch (error) {
       console.log("[ERROR_SUBMITING_FORM]", error);
     }
-    finally{
+    finally {
       setIsLoading(false);
     }
   }
+
+  if(!isMounted) {
+    return null;
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
