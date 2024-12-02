@@ -15,9 +15,9 @@ import { UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
 import { creatUser } from "@/lib/actions/patient.actions"
 
-export enum FormFildType {
+export enum FormFieldType {
   INPUT = 'input',
-  CHECKBOX = 'textarea',
+  CHECKBOX = 'checkbox',
   PHONE_INPUT = 'phoneInput',
   TEXTAREA = 'textarea',
   DATE_PICKER = 'datePicker',
@@ -81,7 +81,7 @@ const PatientForm = () => {
           <p className="text-dark-700">Schedule your first appointment.</p>
         </section>
         <CustomFormField
-          fieldType={FormFildType.INPUT}
+          fieldType={FormFieldType.INPUT}
           control={form.control}
           name="name"
           label="Full name"
@@ -91,7 +91,7 @@ const PatientForm = () => {
         />
 
         <CustomFormField
-          fieldType={FormFildType.INPUT}
+          fieldType={FormFieldType.INPUT}
           control={form.control}
           name="email"
           label="Email"
@@ -101,7 +101,7 @@ const PatientForm = () => {
         />
 
         <CustomFormField
-          fieldType={FormFildType.PHONE_INPUT}
+          fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="phone"
           label="Phone number"
