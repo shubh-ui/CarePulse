@@ -7,11 +7,12 @@ import React from 'react'
 
 const Ragister = async ({params: {userId}} : SearchParamProps) => {
 
-    // console.log(userId)
 
-     const user = await getUser(userId);
-    
-     console.log("User from register Page", user);
+  const user = await getUser(userId);
+
+  if(!user) {
+    return;
+  }
     
   return (
     <div className="flex h-screen max-h-screen">
@@ -28,7 +29,7 @@ const Ragister = async ({params: {userId}} : SearchParamProps) => {
         />
 
         {/* <PatientForm /> */}
-        <RegisterForm />
+        <RegisterForm user={user} />
         <div className="text-14-regular mt-20 flex justify-between">
           <p className="justify-items-end text-dark-600 xl:text-left"> © 2025 CarePluse</p>
           <Link href="/?admin=true" className="text-green-500"> Admin</Link>
